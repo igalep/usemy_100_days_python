@@ -3,19 +3,19 @@ import machine_internals.internal_logic as logic
 
 
 def machine_on():
-    flag = True
-    while flag:
+    on = True
+    while on:
         user_request = up.get_user_request()
 
         if user_request == 'stop':
-            flag = False
+            on = False
             continue
 
         if user_request == 'report':
             print(f'''Current machine status is:
-        water: {logic.resources['water']}
-        milk: {logic.resources['milk']}
-        coffee: {logic.resources['coffee']}
+        water: {logic.resources['water']}ml
+        milk: {logic.resources['milk']}ml
+        coffee: {logic.resources['coffee']}gr
         profit: ${logic.PROFIT}
         ''')
         else:
@@ -47,5 +47,9 @@ def machine_on():
 
 
 
+def main():
+    machine_on()
 
-machine_on()
+
+if __name__=="__main__":
+    main()

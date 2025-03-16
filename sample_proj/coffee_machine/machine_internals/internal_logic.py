@@ -34,7 +34,7 @@ def check_available_resources(drink):
 def calculate_payment(payment):
     '''
     :param payment: required payment dict with all the available coins
-    :return: required payment ammoutn
+    :return: required payment amount
     '''
     total_sum = 0
     for coin in payment.keys():
