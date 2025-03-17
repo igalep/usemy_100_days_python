@@ -1,8 +1,11 @@
-import user_interface.user_prompts as up
-import machine_internals.internal_logic as logic
+from user_interface.user_prompts import UserPrompts
+from machine_internals.internal_logic import CoffeeMachine
 
 
 def machine_on():
+    up = UserPrompts()
+    logic = CoffeeMachine()
+
     on = True
     while on:
         user_request = up.get_user_request()
@@ -12,12 +15,7 @@ def machine_on():
             continue
 
         if user_request == 'report':
-            print(f'''Current machine status is:
-        water: {logic.resources['water']}ml
-        milk: {logic.resources['milk']}ml
-        coffee: {logic.resources['coffee']}gr
-        profit: ${logic.PROFIT}
-        ''')
+            logic.print_report()
         else:
             required_resources = logic.check_available_resources(drink=user_request)
 
