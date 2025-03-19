@@ -1,5 +1,5 @@
 import turtle
-from sample_proj.pandas_csv.us_states_quiz.helper.io import read_file as rf
+from sample_proj.pandas_csv.us_states_quiz.helper.io import get_file_path as rf
 
 
 class View:
@@ -90,3 +90,4 @@ class View:
         # Uncomment the line below to keep the window open until manually closed
         # turtle.mainloop()
         self.screen.exitonclick()  # Close the window when the user clicks on it
+        turtle.bye()

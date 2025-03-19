@@ -1,5 +1,5 @@
 import pandas
-from sample_proj.pandas_csv.us_states_quiz.helper.io import read_file as rf
+from sample_proj.pandas_csv.us_states_quiz.helper.io import get_file_path as rf
 
 
 class StateData:
