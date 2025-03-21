@@ -21,7 +21,7 @@ def map_phonetic(csv_content):
 
     return mapping
 
-def on():
+def game_on():
     loop = True
     csv = read_data()
     phonetic_map = map_phonetic(csv_content=csv)
@@ -33,13 +33,22 @@ def on():
             continue
 
         char_list = list(user_name)
-        phonetic_list = [phonetic_map[item] for item in char_list]
-        phonetic_list = pandas.Series(phonetic_list).dropna().to_list()
+        try:
+            phonetic_list = [phonetic_map[item] for item in char_list]
+            phonetic_list = pandas.Series(phonetic_list).dropna().to_list()
 
-        print(phonetic_list)
+            print(phonetic_list)
+        except KeyError as e:
+            print(f'No special characters are allowed for example - "{e.args[0]}"')
 
 
-on()
+
+def main():
+    game_on()
+
+
+if __name__ == '__main__':
+    main()
 
 
 
