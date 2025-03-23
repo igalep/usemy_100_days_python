@@ -1,6 +1,9 @@
 import pandas
-from helper.io import get_file_path as path
+from sample_proj.pandas_csv.nato_phonetic.nato_phonetic_app.helper.io import get_file_path as path
 
+
+CSV = None
+PHONETIC_MAP = []
 
 def read_data():
     file_name = 'nato_alphabet.csv'
@@ -21,10 +24,26 @@ def map_phonetic(csv_content):
 
     return mapping
 
+
+def boot_strup():
+    global CSV
+    CSV = read_data()
+    global PHONETIC_MAP
+    PHONETIC_MAP = map_phonetic(csv_content=CSV)
+
+def parser(user_input):
+    n_list = []
+    try:
+        phonetic_list = [PHONETIC_MAP[item] for item in user_input]
+        phonetic_list = pandas.Series(phonetic_list).dropna().to_list()
+
+        return phonetic_list
+    except KeyError as e:
+        return f'No special characters are allowed for example - "{e.args[0]}"'
+
 def game_on():
     loop = True
-    csv = read_data()
-    phonetic_map = map_phonetic(csv_content=csv)
+    boot_strup()
 
     while loop:
         user_name = input('Insert a word for conversion to phonetic:\n').upper()
@@ -33,15 +52,10 @@ def game_on():
             continue
 
         char_list = list(user_name)
-        try:
-            phonetic_list = [phonetic_map[item] for item in char_list]
-            phonetic_list = pandas.Series(phonetic_list).dropna().to_list()
 
-            print(phonetic_list)
-        except KeyError as e:
-            print(f'No special characters are allowed for example - "{e.args[0]}"')
+        parser_return = parser(user_input= char_list)
 
-
+        print(parser_return)
 
 def main():
     game_on()
