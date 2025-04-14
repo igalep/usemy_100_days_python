@@ -42,7 +42,7 @@ class TwilioIntegration:
 t = TwilioIntegration()
 sms_data = {
    'body' : 'This is a test message for twilio',
-    'to' : '+972525395160'
+    'to' : '+447537990755'
 }
 
 t.send_sms(**sms_data)

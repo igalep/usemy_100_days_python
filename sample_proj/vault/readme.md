@@ -20,3 +20,15 @@ Add / Pull keys via HTTP API (no CLI required):
      http://127.0.0.1:8200/v1/secret/data/myapp
 2. (read): curl --header "X-Vault-Token: myroot" \
      http://127.0.0.1:8200/v1/secret/data/myapp 
+
+
+
+
+
+
+** Docker compose for persistent storage **
+1. create new image with : docker compose up 
+2. docker exec -it local_vault vault operator init    
+
+3. docker exec -it local_vault vault operator unseal  # repeat 3 times with unseal keys (1-3)
+4. http://localhost:8200
