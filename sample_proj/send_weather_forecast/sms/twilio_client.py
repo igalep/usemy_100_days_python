@@ -1,20 +1,20 @@
 import pprint
 
 from twilio.rest import Client
-from sample_proj.vault.vault_access import VaultAccess
+from sample_proj.stock_prices.api_clients.base_client import BaseClient
 
-class TwilioIntegration:
+class TwilioIntegration(BaseClient):
     def __init__(self):
+        super().__init__()
         self.twilio_trial_number = '+17794446217'
-        self.vault = VaultAccess()
         self.account_sid = ''
         self.auth_token = ''
         
-        self._get_twilio_access()
+        self._get_api_key()
         self.client = Client(self.account_sid, self.auth_token)
 
 
-    def _get_twilio_access(self):
+    def _get_api_key(self):
         data = {
             'path': '/twilio',
             'version': 1,
