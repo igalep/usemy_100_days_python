@@ -14,11 +14,14 @@ def post(url, payload=None, headers=None, expected_status_code=200):
 
     if not headers:
         headers = {'Content-Type': 'application/json'}
+    else:
+        headers.update({'Content-Type': 'application/json'})
 
     rs_api = requests.post(url=url, data=json.dumps(payload), headers=headers)
     status_code = rs_api.status_code
     assert status_code == expected_status_code, \
-        f'Expected status code: {expected_status_code}, but got: {status_code}'
+        f'Expected status code: {expected_status_code}, but got: {status_code} \
+        and the error is {rs_api.text}'
 
     # logging.error(f'API Response: {rs_api.content}')
 
