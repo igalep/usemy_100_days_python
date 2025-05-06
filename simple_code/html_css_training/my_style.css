@@ -1,0 +1,16 @@
+html{
+    background-color: rgb(196, 155, 155);
+}
+
+
+h1{
+    color: green;
+}
+
+.red-text{
+    color: red;
+}
+
+#main{
+    color: blue;
+}
