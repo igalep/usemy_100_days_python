@@ -1,45 +1,73 @@
 import json
-import pprint
-
 import requests
 
+JSON_CONTENT_TYPE = 'application/json'
 
-def post(url, payload=None, headers=None, expected_status_code=200):
-    """
-    Sends a POST request to a given URL with the provided payload and headers. It
-    validates that the response status code matches the expected status code and
-    returns the JSON response body.
-    """
-    print(f'URL --->: {url}')
 
-    if not headers:
-        headers = {'Content-Type': 'application/json'}
+def _prepare_headers(headers):
+    return headers if headers else {'Content-Type': 'application/json'}
+
+def _get_response_content(response):
+    if JSON_CONTENT_TYPE in response.headers.get('Content-Type', ''):
+        # Safely parse the JSON data
+        return response.json()
     else:
-        headers.update({'Content-Type': 'application/json'})
-
-    rs_api = requests.post(url=url, data=json.dumps(payload), headers=headers)
-    status_code = rs_api.status_code
-    assert status_code == expected_status_code, \
-        f'Expected status code: {expected_status_code}, but got: {status_code} \
-        and the error is {rs_api.text}'
-
-    # logging.error(f'API Response: {rs_api.content}')
-
-    # logging.debug(curlify.to_curl(rs_api.request))
-
-    return rs_api.json()
+        return response.text
 
 
-def get(url,**kwargs):
+def post(url, payload=None, headers=None, expected_status_code=201):
     """
-    Sends a GET request to the specified URL with provided keyword arguments and
-    prints the JSON response content.
-
-    This function utilizes the requests library to send the GET request
-    and pprint for pretty-printing the JSON response. It allows passing
-    additional parameters for customization of the HTTP request through
-    keyword arguments.
+    Send a POST request to the specified url with the given payload and headers. Asserts
+    that the response status code matches the expected value. Returns the JSON response content.
     """
-    api_res = requests.get(url=url,params=kwargs)
+    headers = _prepare_headers(headers)
 
-    pprint.pprint(api_res.json())
+    response = requests.post(url=url, data=json.dumps(payload), headers=headers)
+    assert response.status_code == expected_status_code, \
+        f'Expected status code: {expected_status_code}, but got: {response.status_code}'
+
+    return _get_response_content(response)
+
+
+def get(url, expected_status_code=200, headers=None,  **kwargs):
+    """
+    Sends a GET request to the specified API url with optional parameters,
+    validates the response status code, and returns the JSON-formatted response data.
+    """
+    headers = _prepare_headers(headers)
+
+    response = requests.get(url=url, params=kwargs, headers=headers)
+
+    assert response.status_code == expected_status_code, \
+        f'Expected status code: {expected_status_code}, but got: {response.status_code}'
+
+    return _get_response_content(response)
+
+
+
+def put(url, payload=None, headers=None, expected_status_code=200):
+    """
+    Sends an HTTP PUT request to the specified url with the provided payload and
+    headers. This function asserts that the response's status code matches the expected
+    status code. The response body is returned as JSON.
+    """
+    headers = _prepare_headers(headers)
+
+    response = requests.put(url=url, data=json.dumps(payload), headers=headers)
+    assert response.status_code == expected_status_code, \
+        f'Expected status code: {expected_status_code}, but got: {response.status_code}'
+
+    return _get_response_content(response)
+
+
+def delete(url, headers=None, expected_status_code=200):
+    """
+    Send a DELETE HTTP request to the specified url using the provided headers
+    and compare the response status code with the expected status code. Ensures
+    that the server response matches the expectation before proceeding.
+    """
+    response = requests.delete(url=url, headers=headers)
+    assert response.status_code == expected_status_code, \
+        f'Expected status code: {expected_status_code}, but got: {response.status_code}'
+
+    return  'Deleted successfully'

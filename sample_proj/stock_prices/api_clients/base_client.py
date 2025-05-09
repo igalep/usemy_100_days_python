@@ -4,6 +4,24 @@ import requests
 
 
 class BaseClient:
+    """
+    Represents a base client to interact with APIs and manage authorization keys.
+
+    This class provides mechanisms to securely fetch an API key from a vault
+    and perform HTTP requests (GET and POST) to interact with external APIs.
+    It is designed to support basic API interaction needs such as securely
+    accessing credentials and sending HTTP GET and POST requests.
+
+    :ivar vault: An instance of `VaultAccess` used to fetch secrets from the
+        vault.
+    :type vault: VaultAccess
+    :ivar api_key: The API key retrieved from the vault for authenticating
+        requests.
+    :type api_key: str
+    :ivar data: Additional data or context used when fetching secrets from the
+        vault. Defined in subclasses.
+    :type data: str
+    """
     def __init__(self):
         self.vault = VaultAccess()
         self.api_key = ''
@@ -11,11 +29,9 @@ class BaseClient:
 
 
     def get_api_key(self):
-        vault_secrets = self.vault.pull_data(**self.data).get('data', {}).get('data', {})
+        vault_secrets = self.vault.pull_data(**self.data)
         self.api_key = vault_secrets['api_key']
 
-        print(f'api_key = {self.api_key}')
-        pass
 
     def get(self, url,**kwargs):
         api_res = requests.get(url=url, params=kwargs)

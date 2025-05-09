@@ -21,7 +21,7 @@ class TwilioIntegration(BaseClient):
             'mount' : 'udemy_course'
         }
         
-        twilio_access = self.vault.pull_data(**data).get('data',{}).get('data', {})
+        twilio_access = self.vault.pull_data(**data)
         self.account_sid = twilio_access['account_sid']
         self.auth_token = twilio_access['auth_token']
         self.api_secret = twilio_access['api_secret']
