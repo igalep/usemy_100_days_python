@@ -3,3 +3,5 @@ venv/
 **/__pycache__/
 */.DS_Store
 **/vault_data/
+sample_proj/helpers/vault/token_git_ignored.py
+.cache
