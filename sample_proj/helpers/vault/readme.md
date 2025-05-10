@@ -27,8 +27,8 @@ Add / Pull keys via HTTP API (no CLI required):
 
 
 ** Docker compose for persistent storage **
-1. create new image with (also for starting the container) : docker compose up 
+1. create new image with (also for starting the container from the vault dir) : docker compose up 
 2. docker exec -it local_vault vault operator init    
 
-3. docker exec -it local_vault vault operator unseal  # repeat 3 times with unseal keys (1-3)
+3. docker exec -it local_vault vault operator unseal  # repeat 3 times with unseal keys (1-3) + Root token
 4. http://localhost:8200
