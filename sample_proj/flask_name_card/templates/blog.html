@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Blog</title>
+</head>
+<body>
+    {% for blog_post in posts: %}
+        <h1>{{ blog_post['title'] }}</h1>
+        <h2>{{ blog_post['subtitle'] }}</h2>
+        <p> {{ blog_post['body'] }}</p>
+    {% endfor %}
+
+    <h1 style="color:red">This is the number from url --> {{ num }}</h1>
+</body>
+</html>

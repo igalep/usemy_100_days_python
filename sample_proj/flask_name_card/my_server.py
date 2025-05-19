@@ -15,7 +15,7 @@ def foo():
     return json_body
 
 
-def fetch_data(url, params):
+def fetch_data(url, params=None):
     try:
         response = requests.get(url=url, params=params, timeout=3)
         response.raise_for_status()
@@ -45,6 +45,14 @@ def name(input_name):
     this_year = datetime.datetime.now().year
     return render_template('index.html', year=this_year,
                            name = input_name.capitalize(), age=age, gender=gender, probability=probability)
+
+@app.route('/blog/<num>')
+def get_blog(num):
+    url = 'https://api.npoint.io/bf562e52ffd4e3c69384'
+
+    blog_data = fetch_data(url=url)
+
+    return  render_template('blog.html', posts=blog_data.get('blog_posts'), num=num)
 
 
 if __name__=='__main__':
